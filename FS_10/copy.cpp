@@ -15,7 +15,6 @@ int main(int argc, char* argv[]) {
     const char* sourcePath = argv[1];
     const char* destPath = argv[2];
 
-    // Open source file
     int srcFile = open(sourcePath, O_RDONLY);
     if (srcFile < 0) {
         std::cerr << "Error opening source file " << sourcePath << ": " << strerror(errno) << "\n";
