@@ -18,6 +18,7 @@ int main(int argc, char* argv[]) {
     size_t array_size = std::stoull(argv[1]);
     size_t num_threads = std::stoull(argv[2]);
 
+    // Initialize the array with random values
     std::vector<int> array(array_size);
     std::mt19937_64 rng(std::random_device{}());
     std::uniform_int_distribution<int> dist(0, 100);
@@ -25,11 +26,13 @@ int main(int argc, char* argv[]) {
         element = dist(rng);
     }
 
+    // Sum the array without threads
     auto start_time = std::chrono::high_resolution_clock::now();
     uint64_t total_sum = std::accumulate(array.begin(), array.end(), uint64_t(0));
     auto end_time = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double> duration_single = end_time - start_time;
 
+    // Sum the array with multiple threads
     start_time = std::chrono::high_resolution_clock::now();
     std::vector<std::thread> threads;
     std::vector<uint64_t> partial_sums(num_threads, 0);
@@ -46,6 +49,7 @@ int main(int argc, char* argv[]) {
     end_time = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double> duration_multi = end_time - start_time;
 
+    // Output the results
     std::cout << "Time spent without threads: " << duration_single.count() << " seconds\n";
     std::cout << "Time spent with " << num_threads << " threads: " << duration_multi.count() << " seconds\n";
 
